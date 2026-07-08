@@ -24,6 +24,8 @@
   --mock-page:  #F8FAFC;
   --mock-popup: #FFFFFF;
   --mock-sel:   #EEF3F5;
+  --danger:     #D94040;
+  --danger-bg:  #FEF0F0;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -33,6 +35,7 @@
     --hero-bg:#071820; --hero-mid:#133D52; --key-bg:#162E3A;
     --mock-chrome:#0F1A22; --mock-bar:#07121A; --mock-page:#1A2E3A;
     --mock-popup:#0F2530; --mock-sel:#1A3545;
+    --danger:#E05555; --danger-bg:#2A0A0A;
   }
 }
 :root[data-theme="light"] {
@@ -42,6 +45,7 @@
   --hero-bg:#0B2E38; --hero-mid:#1A5068; --key-bg:#E4EDF0;
   --mock-chrome:#1E293B; --mock-bar:#0F172A; --mock-page:#F8FAFC;
   --mock-popup:#FFFFFF; --mock-sel:#EEF3F5;
+  --danger:#D94040; --danger-bg:#FEF0F0;
 }
 :root[data-theme="dark"] {
   --ink:#D6E8EE; --ink-muted:#6FA0AE; --ground:#08181F;
@@ -50,9 +54,10 @@
   --hero-bg:#071820; --hero-mid:#133D52; --key-bg:#162E3A;
   --mock-chrome:#0F1A22; --mock-bar:#07121A; --mock-page:#1A2E3A;
   --mock-popup:#0F2530; --mock-sel:#1A3545;
+  --danger:#E05555; --danger-bg:#2A0A0A;
 }
 
-/* ── RESET & BASE ───────────────────────────────────────────── */
+/* ── RESET ──────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--ground);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
 
@@ -63,19 +68,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 /* ── HERO ───────────────────────────────────────────────────── */
 .hero{background:var(--hero-bg);padding:48px 48px 0;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;overflow:hidden;}
 @media(max-width:580px){.hero{grid-template-columns:1fr;padding:36px 28px 0;}}
-.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
-.hero-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(44px,8vw,64px);font-weight:normal;line-height:1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;text-wrap:balance;}
-.hero-tagline{font-size:15px;color:rgba(255,255,255,.68);line-height:1.55;margin-bottom:24px;max-width:300px;}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.hero-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(44px,8vw,64px);font-weight:normal;line-height:1;letter-spacing:-.025em;color:#fff;margin-bottom:16px;text-wrap:balance;}
+.hero-tagline{font-size:17px;color:#fff;font-weight:600;line-height:1.4;margin-bottom:8px;text-wrap:balance;}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.62);line-height:1.6;margin-bottom:28px;max-width:320px;}
 .hero-rule{width:32px;height:2px;background:var(--accent);margin-bottom:18px;}
 .badges{display:flex;gap:7px;flex-wrap:wrap;padding-bottom:44px;}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border:1px solid rgba(255,255,255,.2);border-radius:3px;font-size:11px;color:rgba(255,255,255,.75);}
 
 /* ── BROWSER MOCK ───────────────────────────────────────────── */
-.browser-mock{background:var(--mock-chrome);border-radius:8px 8px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.4);overflow:hidden;margin-top:auto;}
+.browser-mock{background:var(--mock-chrome);border-radius:8px 8px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.4);overflow:hidden;}
 .browser-bar{background:var(--mock-bar);height:32px;display:flex;align-items:center;padding:0 12px;gap:6px;}
 .b-dot{width:9px;height:9px;border-radius:50%;}
-.b-dot.r{background:#FF5F57;} .b-dot.y{background:#FFBD2E;} .b-dot.g{background:#28CA42;}
-.b-url{background:rgba(255,255,255,.08);border-radius:4px;height:18px;flex:1;margin:0 16px;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:rgba(255,255,255,.35);font-family:monospace;letter-spacing:.01em;}
+.b-dot.r{background:#FF5F57;}.b-dot.y{background:#FFBD2E;}.b-dot.g{background:#28CA42;}
+.b-url{background:rgba(255,255,255,.08);border-radius:4px;height:18px;flex:1;margin:0 16px;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:rgba(255,255,255,.35);font-family:monospace;}
 .browser-page{background:var(--mock-page);padding:16px;display:flex;justify-content:center;}
 
 /* ── TABLENS POPUP (MOCK) ───────────────────────────────────── */
@@ -85,75 +91,95 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .tl-search-text{font-size:13px;color:var(--ink);flex:1;}
 .tl-cursor{display:inline-block;width:1.5px;height:13px;background:var(--accent);margin-left:1px;animation:blink 1s step-end infinite;vertical-align:middle;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-.tl-shortcut-hint{font-size:9px;color:var(--ink-muted);white-space:nowrap;}
-.tl-tab-row{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--border);cursor:pointer;}
+.tl-shortcut-hint{font-size:9px;color:var(--ink-muted);}
+.tl-tab-row{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--border);}
 .tl-tab-row:last-of-type{border-bottom:none;}
 .tl-tab-row.sel{background:var(--mock-sel);}
 .tl-fav{width:14px;height:14px;border-radius:3px;flex-shrink:0;background:#CBD5E1;}
-.tl-fav.figma{background:#A259FF;}
-.tl-fav.gh{background:#24292E;}
-.tl-fav.gd{background:#1A73E8;}
 .tl-tab-name{font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tl-tab-name .hl{color:var(--accent);font-weight:700;}
 .tl-popup-footer{padding:6px 11px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--surface-alt);}
 .tl-popup-footer span{font-size:10px;color:var(--ink-muted);}
 
+/* ── PROBLEM SECTION ────────────────────────────────────────── */
+.problem-section{padding:36px 48px;border-bottom:1px solid var(--border);background:var(--surface);}
+@media(max-width:580px){.problem-section{padding:28px 24px;}}
+.problem-intro{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:20px;}
+.pain-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px;}
+@media(max-width:580px){.pain-cards{grid-template-columns:1fr;}}
+.pain-card{background:var(--danger-bg);border:1px solid rgba(217,64,64,.2);border-radius:6px;padding:14px 15px;}
+.pain-icon{font-size:20px;margin-bottom:8px;display:block;}
+.pain-title{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.3;}
+.pain-desc{font-size:12px;color:var(--ink-muted);line-height:1.5;}
+
+/* Crowded tabs mockup */
+.crowded-browser{background:var(--mock-chrome);border-radius:8px;overflow:hidden;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.1);}
+.crowded-bar{background:var(--mock-bar);height:28px;display:flex;align-items:center;padding:0 10px;gap:5px;}
+.c-dot{width:8px;height:8px;border-radius:50%;}
+.crowded-tabs-row{background:var(--mock-chrome);display:flex;padding:4px 8px 0;gap:2px;overflow:hidden;}
+.ctab{background:rgba(255,255,255,.07);border-radius:5px 5px 0 0;padding:5px 8px;font-size:9px;color:rgba(255,255,255,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:72px;flex-shrink:0;}
+.ctab.active{background:var(--mock-page);color:var(--ink);}
+.ctab.dup{background:rgba(217,64,64,.25);color:#ff8a8a;border:1px solid rgba(217,64,64,.4);border-bottom:none;position:relative;}
+.ctab.dup::after{content:'×2';position:absolute;top:-6px;right:-4px;background:var(--danger);color:#fff;font-size:7px;font-weight:700;padding:1px 3px;border-radius:3px;}
+.ctab.overflow{color:rgba(255,255,255,.3);background:transparent;font-size:9px;}
+.crowded-page-area{background:var(--mock-page);height:44px;display:flex;align-items:center;justify-content:center;}
+.crowded-caption{font-size:11px;color:var(--ink-muted);font-style:italic;}
+
+/* Pivot line */
+.pivot{display:flex;align-items:center;gap:14px;padding:20px 0 0;}
+.pivot-line{flex:1;height:1px;background:var(--border);}
+.pivot-text{font-size:13px;font-weight:700;color:var(--hero-bg);white-space:nowrap;padding:0 4px;}
+
 /* ── INSTALL BAR ────────────────────────────────────────────── */
 .install-bar{background:var(--accent-bg);border-top:3px solid var(--accent);padding:24px 48px;}
+@media(max-width:580px){.install-bar{padding:20px 24px;}}
 .bar-label{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:16px;}
 .install-links{display:flex;flex-direction:column;gap:14px;}
 .install-item{display:flex;flex-direction:column;gap:5px;}
-.install-item-top{display:flex;align-items:center;gap:10px;}
+.install-item-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 17px;background:var(--hero-bg);color:#fff;text-decoration:none;border-radius:var(--radius);font-size:13px;font-weight:500;transition:opacity .15s;flex-shrink:0;}
 .btn:hover{opacity:.82;}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-.install-url{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:11.5px;color:var(--ink-muted);word-break:break-all;line-height:1.5;padding:5px 10px;background:var(--surface);border:1px solid var(--border);border-radius:4px;display:block;user-select:all;}
+.install-url{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:11px;color:var(--ink-muted);word-break:break-all;line-height:1.5;padding:5px 10px;background:var(--surface);border:1px solid var(--border);border-radius:4px;display:block;user-select:all;}
 
-/* ── CONTENT SECTIONS ───────────────────────────────────────── */
+/* ── CONTENT ────────────────────────────────────────────────── */
 .content{padding:0 48px;}
-@media(max-width:580px){.content,.install-bar{padding-left:24px;padding-right:24px;}}
+@media(max-width:580px){.content{padding:0 24px;}}
 .section{padding:36px 0;border-bottom:1px solid var(--border);}
 .section:last-child{border-bottom:none;}
 .section-head{font-family:Georgia,serif;font-size:19px;font-weight:normal;color:var(--ink);margin-bottom:24px;text-wrap:balance;}
 
-/* ── FEATURE ROWS (text + visual) ──────────────────────────── */
+/* ── FEATURE ROWS ───────────────────────────────────────────── */
 .feat{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;padding:28px 0;border-bottom:1px solid var(--border);}
 .feat:last-child{border-bottom:none;}
 @media(max-width:580px){.feat{grid-template-columns:1fr;gap:18px;}}
 .feat.flip{direction:rtl;}
-.feat.flip > *{direction:ltr;}
-.feat-text{}
+.feat.flip>*{direction:ltr;}
 .feat-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
 .feat-title{font-weight:700;font-size:15.5px;color:var(--ink);margin-bottom:7px;line-height:1.35;}
 .feat-desc{font-size:13.5px;color:var(--ink-muted);line-height:1.65;}
 .feat-desc strong{color:var(--ink);font-weight:600;}
-.feat-visual{}
 
-/* ── DUPLICATE NOTIFICATION MOCK ───────────────────────────── */
+/* ── NOTIF DEMO ─────────────────────────────────────────────── */
 .notif-demo{background:var(--mock-chrome);border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
 .notif-bar-top{background:var(--mock-bar);height:28px;display:flex;align-items:center;padding:0 10px;gap:5px;}
-.notif-b-dot{width:8px;height:8px;border-radius:50%;}
 .notif-url{background:rgba(255,255,255,.07);border-radius:3px;height:16px;flex:1;margin:0 12px;}
-.notif-page{background:var(--mock-page);padding:0;position:relative;}
+.notif-page{background:var(--mock-page);}
 .notif-toast{background:var(--hero-bg);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .notif-bolt{font-size:14px;flex-shrink:0;}
 .notif-msg{font-size:11px;color:rgba(255,255,255,.85);flex:1;min-width:0;}
 .notif-url-snippet{color:rgba(255,255,255,.5);font-size:10px;display:block;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .notif-btns{display:flex;gap:6px;flex-shrink:0;}
-.notif-btn{font-size:10.5px;padding:4px 9px;border-radius:3px;cursor:pointer;white-space:nowrap;}
-.notif-btn.secondary{border:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.85);}
-.notif-btn.primary{background:var(--accent);color:#fff;border:none;}
-.notif-fake-page{padding:20px 16px;display:flex;flex-direction:column;gap:8px;}
+.notif-btn{font-size:10.5px;padding:4px 9px;border-radius:3px;cursor:pointer;white-space:nowrap;border:none;}
+.notif-btn.secondary{border:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.85);background:transparent;}
+.notif-btn.primary{background:var(--accent);color:#fff;}
+.notif-fake-page{padding:16px;display:flex;flex-direction:column;gap:8px;}
 .fake-line{height:8px;border-radius:4px;background:var(--border);}
-.fake-line.w80{width:80%;}
-.fake-line.w60{width:60%;}
-.fake-line.w90{width:90%;}
-.fake-line.w50{width:50%;}
+.fake-line.w80{width:80%;}.fake-line.w60{width:60%;}.fake-line.w90{width:90%;}.fake-line.w50{width:50%;}
 
-/* ── SWEEP MOCK ─────────────────────────────────────────────── */
+/* ── SWEEP DEMO ─────────────────────────────────────────────── */
 .sweep-demo{background:var(--mock-popup);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.08);overflow:hidden;}
 .sweep-header{background:var(--hero-bg);padding:12px 14px;display:flex;align-items:center;gap:8px;}
-.sweep-icon{font-size:16px;}
 .sweep-title{font-size:12px;font-weight:600;color:#fff;}
 .sweep-body{padding:14px;}
 .sweep-stat{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-alt);border-radius:5px;margin-bottom:10px;border:1px solid var(--border);}
@@ -163,7 +189,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .sweep-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:9px;background:var(--hero-bg);color:#fff;border-radius:4px;font-size:12.5px;font-weight:500;border:none;cursor:pointer;}
 .sweep-note{font-size:10.5px;color:var(--ink-muted);text-align:center;margin-top:8px;}
 
-/* ── WINDOW RENAME MOCK ─────────────────────────────────────── */
+/* ── WIN DEMO ───────────────────────────────────────────────── */
 .win-demo{background:var(--mock-chrome);border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
 .win-bar{background:var(--mock-bar);height:28px;display:flex;align-items:center;padding:0 10px;gap:5px;}
 .win-dot{width:8px;height:8px;border-radius:50%;}
@@ -171,14 +197,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .win-tab{background:rgba(255,255,255,.08);border-radius:5px 5px 0 0;padding:5px 10px;font-size:9.5px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px;}
 .win-tab.active{background:var(--mock-page);color:var(--ink);}
 .win-content{background:var(--mock-page);padding:14px;}
-.win-label-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.win-label{font-size:10px;color:var(--ink-muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.win-label{font-size:10px;color:var(--ink-muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
 .win-name{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--ink);font-weight:500;}
 .win-name .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
 
 /* ── STEPS ──────────────────────────────────────────────────── */
 .steps{display:flex;flex-direction:column;counter-reset:step;}
-.step{display:grid;grid-template-columns:32px 1fr;gap:0 16px;padding:16px 0;border-bottom:1px solid var(--border);counter-increment:step;}
+.step{display:grid;grid-template-columns:32px 1fr;gap:0 16px;padding:16px 0;border-bottom:1px solid var(--border);counter-increment:step;page-break-inside:avoid;}
 .step:last-child{border-bottom:none;}
 .step-n{width:32px;height:32px;background:var(--hero-bg);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;margin-top:1px;font-variant-numeric:tabular-nums;}
 .step-n::before{content:counter(step);}
@@ -203,24 +228,22 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 
 /* ── FOOTER ─────────────────────────────────────────────────── */
 .doc-footer{padding:18px 48px;border-top:1px solid var(--border);background:var(--surface-alt);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+@media(max-width:580px){.doc-footer{padding:16px 24px;}}
 .footer-text{font-size:12px;color:var(--ink-muted);}
 
 /* ── PRINT ──────────────────────────────────────────────────── */
 @media print{
   body{background:#fff;}
   .page{margin:0;border:none;border-radius:0;max-width:100%;}
-  .hero,.install-bar,.step-n,.btn,.notif-toast,.sweep-header{
+  .hero,.install-bar,.step-n,.btn,.notif-toast,.sweep-header,.pain-card{
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
-  .browser-mock,.notif-demo,.sweep-demo,.win-demo{
+  .browser-mock,.notif-demo,.sweep-demo,.win-demo,.crowded-browser{
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   a{color:inherit;text-decoration:none;}
-  .feat{page-break-inside:avoid;}
-  .step{page-break-inside:avoid;}
+  .feat,.step,.pain-card{page-break-inside:avoid;}
   .install-url{border-color:#ccc;background:#f9f9f9;}
-  /* make URL boxes stand out on paper */
-  .install-item{margin-bottom:4px;}
 }
 </style>
 </head>
@@ -230,27 +253,24 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 <!-- ── HERO ── -->
 <header class="hero">
   <div class="hero-text">
-    <div class="hero-eyebrow">User Guide · v1.0</div>
+    <div class="hero-eyebrow">The tab manager Chrome was missing</div>
     <h1 class="hero-name">TabLens</h1>
-    <p class="hero-tagline">Find any open tab instantly. Never open the same page twice.</p>
     <div class="hero-rule"></div>
+    <p class="hero-tagline">You already had that tab open.</p>
+    <p class="hero-sub">TabLens catches the duplicate the instant it happens — and finds any open tab in 2 seconds flat.</p>
     <div class="badges">
       <span class="badge">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>
-        Chrome
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>Chrome
       </span>
       <span class="badge">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
-        Edge
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>Edge
       </span>
       <span class="badge">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        No account
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Free · No account
       </span>
     </div>
   </div>
 
-  <!-- Hero browser mockup -->
   <div class="browser-mock" aria-hidden="true">
     <div class="browser-bar">
       <span class="b-dot r"></span><span class="b-dot y"></span><span class="b-dot g"></span>
@@ -259,22 +279,20 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     <div class="browser-page">
       <div class="tl-popup">
         <div class="tl-search-row">
-          <span class="tl-search-icon">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </span>
+          <span class="tl-search-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
           <span class="tl-search-text">figma<span class="tl-cursor"></span></span>
           <span class="tl-shortcut-hint"><kbd style="font-size:9px;padding:1px 5px;">Alt+M</kbd></span>
         </div>
         <div class="tl-tab-row sel">
-          <div class="tl-fav figma"></div>
+          <div class="tl-fav" style="background:#A259FF;"></div>
           <span class="tl-tab-name"><span class="hl">Figma</span> — Design System v2</span>
         </div>
         <div class="tl-tab-row">
-          <div class="tl-fav figma"></div>
+          <div class="tl-fav" style="background:#A259FF;"></div>
           <span class="tl-tab-name"><span class="hl">Figma</span> — Q3 Mockups</span>
         </div>
         <div class="tl-tab-row">
-          <div class="tl-fav gh"></div>
+          <div class="tl-fav" style="background:#24292E;"></div>
           <span class="tl-tab-name">github.com / tablens</span>
         </div>
         <div class="tl-popup-footer">
@@ -286,22 +304,74 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
   </div>
 </header>
 
+<!-- ── PROBLEM SECTION ── -->
+<div class="problem-section">
+  <div class="problem-intro">Sound familiar?</div>
+
+  <!-- Crowded browser mockup -->
+  <div class="crowded-browser" aria-hidden="true">
+    <div class="crowded-bar">
+      <span class="c-dot" style="background:#FF5F57;"></span>
+      <span class="c-dot" style="background:#FFBD2E;"></span>
+      <span class="c-dot" style="background:#28CA42;"></span>
+    </div>
+    <div class="crowded-tabs-row">
+      <div class="ctab active">Gmail</div>
+      <div class="ctab">Notion —</div>
+      <div class="ctab">GitHub</div>
+      <div class="ctab dup">GitHub</div>
+      <div class="ctab">Figma</div>
+      <div class="ctab">Slack</div>
+      <div class="ctab">Google D…</div>
+      <div class="ctab dup">Google D…</div>
+      <div class="ctab">YouTube</div>
+      <div class="ctab overflow">+9 more</div>
+    </div>
+    <div class="crowded-page-area">
+      <span class="crowded-caption">⚠ You have GitHub open twice. And Google Docs. Again.</span>
+    </div>
+  </div>
+
+  <!-- Three pain cards -->
+  <div class="pain-cards">
+    <div class="pain-card">
+      <span class="pain-icon">🔁</span>
+      <div class="pain-title">You opened the same tab for the third time today</div>
+      <div class="pain-desc">You didn't realise it was already open in another window.</div>
+    </div>
+    <div class="pain-card">
+      <span class="pain-icon">🔍</span>
+      <div class="pain-title">You spent 30 seconds scanning tabs to find one</div>
+      <div class="pain-desc">The tab was there all along — just buried under 40 others.</div>
+    </div>
+    <div class="pain-card">
+      <span class="pain-icon">🐢</span>
+      <div class="pain-title">Your browser feels slow and hard to manage</div>
+      <div class="pain-desc">Dozens of duplicate tabs eating memory you don't need to spend.</div>
+    </div>
+  </div>
+
+  <div class="pivot">
+    <div class="pivot-line"></div>
+    <div class="pivot-text">TabLens fixes all three — instantly</div>
+    <div class="pivot-line"></div>
+  </div>
+</div>
+
 <!-- ── INSTALL ── -->
 <div class="install-bar">
-  <div class="bar-label">Install free — no account needed</div>
+  <div class="bar-label">Get TabLens free — no account needed</div>
   <div class="install-links">
-
     <div class="install-item">
       <div class="install-item-top">
         <a class="btn" href="https://chromewebstore.google.com/detail/tablens/kkoeaoddgajjmhdoaocpjacmedpbknaf" target="_blank" rel="noopener">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>
           Add to Chrome
         </a>
-        <span style="font-size:11px;color:var(--ink-muted);">Google Chrome · Chromium · Brave · Opera</span>
+        <span style="font-size:11px;color:var(--ink-muted);">Chrome · Brave · Opera · Chromium</span>
       </div>
       <code class="install-url">https://chromewebstore.google.com/detail/tablens/kkoeaoddgajjmhdoaocpjacmedpbknaf</code>
     </div>
-
     <div class="install-item">
       <div class="install-item-top">
         <a class="btn" href="https://microsoftedge.microsoft.com/addons/detail/iemacbomkondjpefoedpiepddackpfoj" target="_blank" rel="noopener">
@@ -312,7 +382,6 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
       </div>
       <code class="install-url">https://microsoftedge.microsoft.com/addons/detail/iemacbomkondjpefoedpiepddackpfoj</code>
     </div>
-
   </div>
 </div>
 
@@ -320,14 +389,45 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 
 <!-- ── FEATURES ── -->
 <section class="section">
-  <h2 class="section-head">What TabLens does</h2>
+  <h2 class="section-head">How TabLens fixes it</h2>
 
-  <!-- Feature 1: Tab search -->
   <div class="feat">
     <div class="feat-text">
-      <div class="feat-label">Search</div>
-      <div class="feat-title">Find any tab in seconds</div>
-      <div class="feat-desc">Press <kbd>Alt+M</kbd> from anywhere in Chrome or Edge. Start typing — TabLens instantly filters every open tab across all windows. Fuzzy matching means <strong>typos and partial words</strong> still find the right tab.</div>
+      <div class="feat-label">Duplicate detection</div>
+      <div class="feat-title">Caught before you even notice</div>
+      <div class="feat-desc">The instant you open a URL you already have, TabLens shows a banner. <strong>Continue</strong> closes the new tab quietly. <strong>Take me there</strong> jumps to the one you already had. Done in one click, zero disruption.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="notif-demo">
+        <div class="notif-bar-top">
+          <span style="width:8px;height:8px;border-radius:50%;background:#FF5F57;display:inline-block;"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:#FFBD2E;display:inline-block;margin-left:4px;"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:#28CA42;display:inline-block;margin-left:4px;"></span>
+          <div class="notif-url"></div>
+        </div>
+        <div class="notif-page">
+          <div class="notif-toast">
+            <span class="notif-bolt">⚡</span>
+            <div class="notif-msg">Already open<span class="notif-url-snippet">github.com/vercel/next.js</span></div>
+            <div class="notif-btns">
+              <button class="notif-btn secondary">Continue</button>
+              <button class="notif-btn primary">Take me there</button>
+            </div>
+          </div>
+          <div class="notif-fake-page">
+            <div class="fake-line w80"></div><div class="fake-line w60"></div>
+            <div class="fake-line w90"></div><div class="fake-line w50"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feat flip">
+    <div class="feat-text">
+      <div class="feat-label">Tab search</div>
+      <div class="feat-title">Find any tab in 2 seconds</div>
+      <div class="feat-desc">Press <kbd>Alt+M</kbd> from anywhere. Type a few letters — TabLens filters every open tab across all windows instantly. Fuzzy matching means <strong>typos still work</strong>. No more hunting through rows of tiny favicons.</div>
     </div>
     <div class="feat-visual" aria-hidden="true">
       <div class="tl-popup" style="box-shadow:0 6px 24px rgba(0,0,0,.12);">
@@ -351,55 +451,16 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     </div>
   </div>
 
-  <!-- Feature 2: Duplicate detection -->
-  <div class="feat flip">
-    <div class="feat-text">
-      <div class="feat-label">Duplicate detection</div>
-      <div class="feat-title">Never open the same tab twice</div>
-      <div class="feat-desc">The moment you open a URL you already have, TabLens shows a banner. Choose <strong>Continue</strong> to close the new tab quietly, or <strong>Take me there</strong> to jump to the existing one. Tracking noise like <code>utm_*</code> is ignored.</div>
-    </div>
-    <div class="feat-visual" aria-hidden="true">
-      <div class="notif-demo">
-        <div class="notif-bar-top">
-          <span class="notif-b-dot" style="background:#FF5F57;"></span>
-          <span class="notif-b-dot" style="background:#FFBD2E;"></span>
-          <span class="notif-b-dot" style="background:#28CA42;"></span>
-          <div class="notif-url"></div>
-        </div>
-        <div class="notif-page">
-          <div class="notif-toast">
-            <span class="notif-bolt">⚡</span>
-            <div class="notif-msg">
-              Already open
-              <span class="notif-url-snippet">github.com/vercel/next.js</span>
-            </div>
-            <div class="notif-btns">
-              <button class="notif-btn secondary">Continue</button>
-              <button class="notif-btn primary">Take me there</button>
-            </div>
-          </div>
-          <div class="notif-fake-page">
-            <div class="fake-line w80"></div>
-            <div class="fake-line w60"></div>
-            <div class="fake-line w90"></div>
-            <div class="fake-line w50"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Feature 3: Sweep -->
   <div class="feat">
     <div class="feat-text">
       <div class="feat-label">One-click sweep</div>
-      <div class="feat-title">Close all duplicates at once</div>
-      <div class="feat-desc">Open the popup and TabLens instantly counts any duplicates already open across your windows. One button closes them all. <strong>Pinned tabs are always safe</strong> — they're never touched.</div>
+      <div class="feat-title">Already have duplicates? Gone in one click</div>
+      <div class="feat-desc">Open the popup and TabLens counts every duplicate already open. One button closes them all across every window. <strong>Pinned tabs are always safe.</strong></div>
     </div>
     <div class="feat-visual" aria-hidden="true">
       <div class="sweep-demo">
         <div class="sweep-header">
-          <span class="sweep-icon">🔍</span>
+          <span style="font-size:15px;">🔍</span>
           <span class="sweep-title">TabLens</span>
         </div>
         <div class="sweep-body">
@@ -417,12 +478,11 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     </div>
   </div>
 
-  <!-- Feature 4: Window names -->
   <div class="feat flip">
     <div class="feat-text">
       <div class="feat-label">Window management</div>
-      <div class="feat-title">Name your windows, merge them too</div>
-      <div class="feat-desc">Give any browser window a label — <strong>Work</strong>, <strong>Research</strong>, <strong>Shopping</strong> — so you always know what's where. Or merge all windows into one with a single click.</div>
+      <div class="feat-title">Name your windows, merge them in one click</div>
+      <div class="feat-desc">Label windows <strong>Work</strong>, <strong>Research</strong>, <strong>Shopping</strong> — so you always know which is which. Merge everything into one window whenever you want a clean slate.</div>
     </div>
     <div class="feat-visual" aria-hidden="true">
       <div class="win-demo">
@@ -432,24 +492,12 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
           <span class="win-dot" style="background:#28CA42;"></span>
         </div>
         <div class="win-tabs">
-          <div class="win-tab active">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-            Work
-          </div>
-          <div class="win-tab">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-            Research
-          </div>
+          <div class="win-tab active"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>Work</div>
+          <div class="win-tab"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>Research</div>
         </div>
         <div class="win-content">
-          <div class="win-label-row">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            <span class="win-label">Window name</span>
-          </div>
-          <div class="win-name">
-            <span class="dot"></span>
-            Work — Design & Dev
-          </div>
+          <div class="win-label">Window name</div>
+          <div class="win-name"><span class="dot"></span>Work — Design &amp; Dev</div>
         </div>
       </div>
     </div>
@@ -465,34 +513,34 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
       <div class="step-n" aria-hidden="true"></div>
       <div>
         <div class="step-title">Click "Add to Chrome" or "Add to Edge" above</div>
-        <div class="step-desc">The browser asks for confirmation — just click <strong>Add extension</strong>. No sign-in, no setup. TabLens is active immediately.</div>
+        <div class="step-desc">Confirm when the browser asks. No sign-in, no setup — TabLens is active immediately.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-n" aria-hidden="true"></div>
       <div>
         <div class="step-title">Press <kbd>Alt+M</kbd> from any tab</div>
-        <div class="step-desc">This opens TabLens with the search bar already focused — no need to reach for the mouse. You can also click the TabLens icon in your browser toolbar.</div>
+        <div class="step-desc">Opens TabLens with the search bar already focused. Or click the icon in the toolbar.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-n" aria-hidden="true"></div>
       <div>
         <div class="step-title">Type to find a tab, press <kbd>Enter</kbd> to switch</div>
-        <div class="step-desc">Results filter as you type. Use <kbd>↑</kbd> <kbd>↓</kbd> to move between results. Press <kbd>/</kbd> at any time to jump back to the search bar.</div>
+        <div class="step-desc">Results filter as you type. Use <kbd>↑</kbd> <kbd>↓</kbd> to navigate. Press <kbd>/</kbd> to jump back to search.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-n" aria-hidden="true"></div>
       <div>
-        <div class="step-title">Browse normally — duplicate detection runs in the background</div>
-        <div class="step-desc">When you open a page that's already open, a small banner appears. Pick <strong>Continue</strong> or <strong>Take me there</strong> — it takes less than a second.</div>
+        <div class="step-title">Browse normally — duplicates are caught automatically</div>
+        <div class="step-desc">When you open a page that's already open, a banner appears. Pick <strong>Continue</strong> or <strong>Take me there</strong> in one click.</div>
       </div>
     </div>
   </div>
 
   <div class="privacy-note">
-    <p><strong>Your data stays on your device.</strong> TabLens cannot read the content of any page you visit. It never connects to a server, sends analytics, or requires an account. Everything runs locally in your browser.</p>
+    <p><strong>Your data stays on your device.</strong> TabLens cannot read the content of pages you visit. No server, no analytics, no account — everything runs locally in your browser.</p>
   </div>
 </section>
 
@@ -500,36 +548,21 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 <section class="section">
   <h2 class="section-head">Keyboard shortcuts</h2>
   <div class="shortcut-grid" role="table" aria-label="Keyboard shortcuts">
-    <div class="sc-row" role="row">
-      <div class="sc-key" role="cell"><kbd>Alt+M</kbd></div>
-      <div class="sc-desc" role="cell">Open TabLens with search focused, from anywhere</div>
-    </div>
-    <div class="sc-row" role="row">
-      <div class="sc-key" role="cell"><kbd>/</kbd></div>
-      <div class="sc-desc" role="cell">Focus the search bar when TabLens is open</div>
-    </div>
-    <div class="sc-row" role="row">
-      <div class="sc-key" role="cell"><kbd>↑</kbd> <kbd>↓</kbd></div>
-      <div class="sc-desc" role="cell">Navigate through search results</div>
-    </div>
-    <div class="sc-row" role="row">
-      <div class="sc-key" role="cell"><kbd>Enter</kbd></div>
-      <div class="sc-desc" role="cell">Switch to the highlighted tab</div>
-    </div>
-    <div class="sc-row" role="row">
-      <div class="sc-key" role="cell"><kbd>Esc</kbd></div>
-      <div class="sc-desc" role="cell">Close TabLens</div>
-    </div>
+    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Alt+M</kbd></div><div class="sc-desc" role="cell">Open TabLens with search focused, from anywhere</div></div>
+    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>/</kbd></div><div class="sc-desc" role="cell">Focus the search bar when TabLens is open</div></div>
+    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>↑</kbd> <kbd>↓</kbd></div><div class="sc-desc" role="cell">Navigate through search results</div></div>
+    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Enter</kbd></div><div class="sc-desc" role="cell">Switch to the highlighted tab</div></div>
+    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Esc</kbd></div><div class="sc-desc" role="cell">Close TabLens</div></div>
   </div>
 </section>
 
-</div><!-- /content -->
+</div>
 
 <footer class="doc-footer">
   <span class="footer-text">TabLens v1.0 · Free, no subscription</span>
   <span class="footer-text">pratheepr@gmail.com</span>
 </footer>
 
-</div><!-- /page -->
+</div>
 </body>
 </html>
