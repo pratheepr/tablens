@@ -242,8 +242,22 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   a{color:inherit;text-decoration:none;}
-  .feat,.step,.pain-card{page-break-inside:avoid;}
+  .feat,.step,.pain-card{page-break-inside:avoid;break-inside:avoid;}
   .install-url{border-color:#ccc;background:#f9f9f9;}
+
+  /* ── Page 1: hero → install bar. Page 2+: features onwards ── */
+  #how-it-works{break-before:page;page-break-before:always;}
+
+  /* Tighten print spacing so page 1 content doesn't overflow */
+  .hero{padding:32px 40px 0;}
+  .problem-section{padding:22px 40px;}
+  .install-bar{padding:18px 40px;}
+  .crowded-browser{margin-bottom:18px;}
+  .pain-cards{gap:8px;margin-bottom:18px;}
+  .pain-card{padding:10px 12px;}
+  .pain-icon{font-size:16px;margin-bottom:5px;}
+  .pivot{padding:14px 0 0;}
+  .badges{padding-bottom:28px;}
 }
 </style>
 </head>
@@ -388,7 +402,7 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 <div class="content">
 
 <!-- ── FEATURES ── -->
-<section class="section">
+<section class="section" id="how-it-works">
   <h2 class="section-head">How TabLens works</h2>
 
   <div class="feat">
