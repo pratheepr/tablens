@@ -221,7 +221,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .sc-key,.sc-desc{padding:11px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;}
 .sc-key{padding-right:20px;gap:4px;white-space:nowrap;}
 .sc-desc{font-size:13.5px;color:var(--ink-muted);}
-.sc-row:last-child .sc-key,.sc-row:last-child .sc-desc{border-bottom:none;}
+/* last row = last 2 direct children */
+.shortcut-grid>div:nth-last-child(-n+2){border-bottom:none;}
 
 kbd{display:inline-block;font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:11.5px;padding:2px 7px;background:var(--key-bg);border:1px solid var(--border);border-bottom:2px solid var(--border);border-radius:4px;color:var(--ink);letter-spacing:.02em;white-space:nowrap;}
 code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;padding:1px 5px;background:var(--key-bg);border-radius:3px;color:var(--ink);}
@@ -243,21 +244,33 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
   }
   a{color:inherit;text-decoration:none;}
   .feat,.step,.pain-card{page-break-inside:avoid;break-inside:avoid;}
+  /* Compress content sections so shortcuts stay on page 3 */
+  .content .section{padding:20px 0;}
+  .section-head{margin-bottom:14px;}
+  .step{padding:10px 0;}
+  .privacy-note{padding:11px 16px;margin-top:12px;}
+  .sc-key,.sc-desc{padding:8px 0;}
+  .content{padding:0 40px;}
+  .install-bar{page-break-inside:avoid;break-inside:avoid;page-break-before:avoid;break-before:avoid;}
+  .install-links,.install-item{page-break-inside:avoid;break-inside:avoid;}
   .install-url{border-color:#ccc;background:#f9f9f9;}
 
   /* ── Page 1: hero → install bar. Page 2+: features onwards ── */
   #how-it-works{break-before:page;page-break-before:always;}
 
   /* Tighten print spacing so page 1 content doesn't overflow */
-  .hero{padding:32px 40px 0;}
-  .problem-section{padding:22px 40px;}
-  .install-bar{padding:18px 40px;}
-  .crowded-browser{margin-bottom:18px;}
-  .pain-cards{gap:8px;margin-bottom:18px;}
-  .pain-card{padding:10px 12px;}
-  .pain-icon{font-size:16px;margin-bottom:5px;}
-  .pivot{padding:14px 0 0;}
-  .badges{padding-bottom:28px;}
+  .hero{padding:20px 40px 0;}
+  .hero-name{font-size:44px;}
+  .hero-sub{margin-bottom:16px;}
+  .badges{padding-bottom:20px;}
+  .problem-section{padding:16px 40px;}
+  .install-bar{padding:14px 40px;}
+  .crowded-browser{margin-bottom:12px;}
+  .crowded-page-area{height:32px;}
+  .pain-cards{gap:7px;margin-bottom:12px;}
+  .pain-card{padding:9px 11px;}
+  .pain-icon{font-size:15px;margin-bottom:4px;}
+  .pivot{padding:10px 0 0;}
 }
 </style>
 </head>
@@ -562,11 +575,11 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 <section class="section">
   <h2 class="section-head">Keyboard shortcuts</h2>
   <div class="shortcut-grid" role="table" aria-label="Keyboard shortcuts">
-    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Alt+M</kbd></div><div class="sc-desc" role="cell">Open TabLens with search focused, from anywhere</div></div>
-    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>/</kbd></div><div class="sc-desc" role="cell">Focus the search bar when TabLens is open</div></div>
-    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>↑</kbd> <kbd>↓</kbd></div><div class="sc-desc" role="cell">Navigate through search results</div></div>
-    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Enter</kbd></div><div class="sc-desc" role="cell">Switch to the highlighted tab</div></div>
-    <div class="sc-row" role="row"><div class="sc-key" role="cell"><kbd>Esc</kbd></div><div class="sc-desc" role="cell">Close TabLens</div></div>
+    <div class="sc-key" role="rowheader"><kbd>Alt+M</kbd></div><div class="sc-desc" role="cell">Open TabLens with search focused, from anywhere</div>
+    <div class="sc-key" role="rowheader"><kbd>/</kbd></div><div class="sc-desc" role="cell">Focus the search bar when TabLens is open</div>
+    <div class="sc-key" role="rowheader"><kbd>↑</kbd> <kbd>↓</kbd></div><div class="sc-desc" role="cell">Navigate through search results</div>
+    <div class="sc-key" role="rowheader"><kbd>Enter</kbd></div><div class="sc-desc" role="cell">Switch to the highlighted tab</div>
+    <div class="sc-key" role="rowheader"><kbd>Esc</kbd></div><div class="sc-desc" role="cell">Close TabLens</div>
   </div>
 </section>
 
