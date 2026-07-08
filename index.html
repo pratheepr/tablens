@@ -256,8 +256,8 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     <div class="hero-eyebrow">The tab manager Chrome was missing</div>
     <h1 class="hero-name">TabLens</h1>
     <div class="hero-rule"></div>
-    <p class="hero-tagline">You already had that tab open.</p>
-    <p class="hero-sub">TabLens catches the duplicate the instant it happens — and finds any open tab in 2 seconds flat.</p>
+    <p class="hero-tagline">Find any open tab in 2 seconds.</p>
+    <p class="hero-sub">Press <kbd style="font-size:11px;padding:1px 6px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);color:#fff;">Alt+M</kbd>, type a word, hit Enter. No more hunting through rows of tiny tabs.</p>
     <div class="badges">
       <span class="badge">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>Chrome
@@ -319,41 +319,41 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
       <div class="ctab active">Gmail</div>
       <div class="ctab">Notion —</div>
       <div class="ctab">GitHub</div>
-      <div class="ctab dup">GitHub</div>
       <div class="ctab">Figma</div>
       <div class="ctab">Slack</div>
       <div class="ctab">Google D…</div>
-      <div class="ctab dup">Google D…</div>
       <div class="ctab">YouTube</div>
-      <div class="ctab overflow">+9 more</div>
+      <div class="ctab">Jira — SP…</div>
+      <div class="ctab">Stack Ov…</div>
+      <div class="ctab overflow">+14 more</div>
     </div>
     <div class="crowded-page-area">
-      <span class="crowded-caption">⚠ You have GitHub open twice. And Google Docs. Again.</span>
+      <span class="crowded-caption">Where's that Notion tab? It's in there somewhere…</span>
     </div>
   </div>
 
   <!-- Three pain cards -->
   <div class="pain-cards">
     <div class="pain-card">
-      <span class="pain-icon">🔁</span>
-      <div class="pain-title">You opened the same tab for the third time today</div>
-      <div class="pain-desc">You didn't realise it was already open in another window.</div>
-    </div>
-    <div class="pain-card">
       <span class="pain-icon">🔍</span>
-      <div class="pain-title">You spent 30 seconds scanning tabs to find one</div>
-      <div class="pain-desc">The tab was there all along — just buried under 40 others.</div>
+      <div class="pain-title">You spent 30 seconds scanning to find one tab</div>
+      <div class="pain-desc">It was there all along — buried under 40 others across two windows.</div>
     </div>
     <div class="pain-card">
-      <span class="pain-icon">🐢</span>
-      <div class="pain-title">Your browser feels slow and hard to manage</div>
-      <div class="pain-desc">Dozens of duplicate tabs eating memory you don't need to spend.</div>
+      <span class="pain-icon">🗂️</span>
+      <div class="pain-title">You have 3 windows open and can't remember what's in each</div>
+      <div class="pain-desc">Alt-Tab, scroll, scan, repeat. Every time.</div>
+    </div>
+    <div class="pain-card">
+      <span class="pain-icon">🔁</span>
+      <div class="pain-title">You opened the same page again without realising</div>
+      <div class="pain-desc">It was already open — just too deep to see.</div>
     </div>
   </div>
 
   <div class="pivot">
     <div class="pivot-line"></div>
-    <div class="pivot-text">TabLens fixes all three — instantly</div>
+    <div class="pivot-text">TabLens finds any tab in 2 seconds — no matter how many you have</div>
     <div class="pivot-line"></div>
   </div>
 </div>
@@ -389,13 +389,41 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
 
 <!-- ── FEATURES ── -->
 <section class="section">
-  <h2 class="section-head">How TabLens fixes it</h2>
+  <h2 class="section-head">How TabLens works</h2>
 
   <div class="feat">
     <div class="feat-text">
+      <div class="feat-label">Tab search</div>
+      <div class="feat-title">Find any tab in 2 seconds</div>
+      <div class="feat-desc">Press <kbd>Alt+M</kbd> from anywhere in the browser. Type a word — TabLens filters every open tab across every window instantly. Fuzzy matching means <strong>typos still work</strong>. Hit Enter to jump there.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="tl-popup" style="box-shadow:0 6px 24px rgba(0,0,0,.12);">
+        <div class="tl-search-row">
+          <span class="tl-search-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+          <span class="tl-search-text">notion<span class="tl-cursor"></span></span>
+        </div>
+        <div class="tl-tab-row sel">
+          <div class="tl-fav" style="background:#000;"></div>
+          <span class="tl-tab-name"><span class="hl">Notion</span> — Team Workspace</span>
+        </div>
+        <div class="tl-tab-row">
+          <div class="tl-fav" style="background:#000;"></div>
+          <span class="tl-tab-name"><span class="hl">Notion</span> — Product Roadmap</span>
+        </div>
+        <div class="tl-popup-footer">
+          <span>2 matches</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--ink-muted);">across 1 window</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feat flip">
+    <div class="feat-text">
       <div class="feat-label">Duplicate detection</div>
-      <div class="feat-title">Caught before you even notice</div>
-      <div class="feat-desc">The instant you open a URL you already have, TabLens shows a banner. <strong>Continue</strong> closes the new tab quietly. <strong>Take me there</strong> jumps to the one you already had. Done in one click, zero disruption.</div>
+      <div class="feat-title">Stops you opening the same tab twice</div>
+      <div class="feat-desc">The instant you open a URL you already have, TabLens shows a banner. <strong>Continue</strong> closes the new tab quietly. <strong>Take me there</strong> jumps to the existing one. Done in one click, zero disruption.</div>
     </div>
     <div class="feat-visual" aria-hidden="true">
       <div class="notif-demo">
@@ -418,34 +446,6 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
             <div class="fake-line w80"></div><div class="fake-line w60"></div>
             <div class="fake-line w90"></div><div class="fake-line w50"></div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="feat flip">
-    <div class="feat-text">
-      <div class="feat-label">Tab search</div>
-      <div class="feat-title">Find any tab in 2 seconds</div>
-      <div class="feat-desc">Press <kbd>Alt+M</kbd> from anywhere. Type a few letters — TabLens filters every open tab across all windows instantly. Fuzzy matching means <strong>typos still work</strong>. No more hunting through rows of tiny favicons.</div>
-    </div>
-    <div class="feat-visual" aria-hidden="true">
-      <div class="tl-popup" style="box-shadow:0 6px 24px rgba(0,0,0,.12);">
-        <div class="tl-search-row">
-          <span class="tl-search-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
-          <span class="tl-search-text">notion<span class="tl-cursor"></span></span>
-        </div>
-        <div class="tl-tab-row sel">
-          <div class="tl-fav" style="background:#000;"></div>
-          <span class="tl-tab-name"><span class="hl">Notion</span> — Team Workspace</span>
-        </div>
-        <div class="tl-tab-row">
-          <div class="tl-fav" style="background:#000;"></div>
-          <span class="tl-tab-name"><span class="hl">Notion</span> — Product Roadmap</span>
-        </div>
-        <div class="tl-popup-footer">
-          <span>2 matches</span>
-          <span style="margin-left:auto;font-size:10px;color:var(--ink-muted);">across 1 window</span>
         </div>
       </div>
     </div>
@@ -533,8 +533,8 @@ code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;
     <div class="step">
       <div class="step-n" aria-hidden="true"></div>
       <div>
-        <div class="step-title">Browse normally — duplicates are caught automatically</div>
-        <div class="step-desc">When you open a page that's already open, a banner appears. Pick <strong>Continue</strong> or <strong>Take me there</strong> in one click.</div>
+        <div class="step-title">Browse normally — duplicates are caught in the background</div>
+        <div class="step-desc">If you open a page already open somewhere, a banner appears instantly. Pick <strong>Take me there</strong> to jump to it, or <strong>Continue</strong> to dismiss.</div>
       </div>
     </div>
   </div>
