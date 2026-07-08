@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TabLens — How to Use</title>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --ink:        #1A2E35;
+  --ink-muted:  #5A7885;
+  --ground:     #EEF3F5;
+  --surface:    #FFFFFF;
+  --surface-alt:#F3F7F8;
+  --border:     #D0DDE1;
+  --accent:     #C47B08;
+  --accent-bg:  #FEF5DF;
+  --hero-bg:    #0B2E38;
+  --hero-mid:   #1A5068;
+  --key-bg:     #E4EDF0;
+  --radius:     5px;
+  --mock-chrome:#1E293B;
+  --mock-bar:   #0F172A;
+  --mock-page:  #F8FAFC;
+  --mock-popup: #FFFFFF;
+  --mock-sel:   #EEF3F5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink:#D6E8EE; --ink-muted:#6FA0AE; --ground:#08181F;
+    --surface:#0F2530; --surface-alt:#0C2030; --border:#1C3D4D;
+    --accent:#E8A020; --accent-bg:#251A05;
+    --hero-bg:#071820; --hero-mid:#133D52; --key-bg:#162E3A;
+    --mock-chrome:#0F1A22; --mock-bar:#07121A; --mock-page:#1A2E3A;
+    --mock-popup:#0F2530; --mock-sel:#1A3545;
+  }
+}
+:root[data-theme="light"] {
+  --ink:#1A2E35; --ink-muted:#5A7885; --ground:#EEF3F5;
+  --surface:#FFFFFF; --surface-alt:#F3F7F8; --border:#D0DDE1;
+  --accent:#C47B08; --accent-bg:#FEF5DF;
+  --hero-bg:#0B2E38; --hero-mid:#1A5068; --key-bg:#E4EDF0;
+  --mock-chrome:#1E293B; --mock-bar:#0F172A; --mock-page:#F8FAFC;
+  --mock-popup:#FFFFFF; --mock-sel:#EEF3F5;
+}
+:root[data-theme="dark"] {
+  --ink:#D6E8EE; --ink-muted:#6FA0AE; --ground:#08181F;
+  --surface:#0F2530; --surface-alt:#0C2030; --border:#1C3D4D;
+  --accent:#E8A020; --accent-bg:#251A05;
+  --hero-bg:#071820; --hero-mid:#133D52; --key-bg:#162E3A;
+  --mock-chrome:#0F1A22; --mock-bar:#07121A; --mock-page:#1A2E3A;
+  --mock-popup:#0F2530; --mock-sel:#1A3545;
+}
+
+/* ── RESET & BASE ───────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--ground);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* ── PAGE ───────────────────────────────────────────────────── */
+.page{max-width:700px;margin:32px auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+@media(max-width:740px){.page{margin:0;border-radius:0;border-left:none;border-right:none;}}
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero{background:var(--hero-bg);padding:48px 48px 0;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;overflow:hidden;}
+@media(max-width:580px){.hero{grid-template-columns:1fr;padding:36px 28px 0;}}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.hero-name{font-family:Georgia,'Times New Roman',serif;font-size:clamp(44px,8vw,64px);font-weight:normal;line-height:1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;text-wrap:balance;}
+.hero-tagline{font-size:15px;color:rgba(255,255,255,.68);line-height:1.55;margin-bottom:24px;max-width:300px;}
+.hero-rule{width:32px;height:2px;background:var(--accent);margin-bottom:18px;}
+.badges{display:flex;gap:7px;flex-wrap:wrap;padding-bottom:44px;}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border:1px solid rgba(255,255,255,.2);border-radius:3px;font-size:11px;color:rgba(255,255,255,.75);}
+
+/* ── BROWSER MOCK ───────────────────────────────────────────── */
+.browser-mock{background:var(--mock-chrome);border-radius:8px 8px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.4);overflow:hidden;margin-top:auto;}
+.browser-bar{background:var(--mock-bar);height:32px;display:flex;align-items:center;padding:0 12px;gap:6px;}
+.b-dot{width:9px;height:9px;border-radius:50%;}
+.b-dot.r{background:#FF5F57;} .b-dot.y{background:#FFBD2E;} .b-dot.g{background:#28CA42;}
+.b-url{background:rgba(255,255,255,.08);border-radius:4px;height:18px;flex:1;margin:0 16px;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:rgba(255,255,255,.35);font-family:monospace;letter-spacing:.01em;}
+.browser-page{background:var(--mock-page);padding:16px;display:flex;justify-content:center;}
+
+/* ── TABLENS POPUP (MOCK) ───────────────────────────────────── */
+.tl-popup{width:100%;max-width:260px;background:var(--mock-popup);border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.14);overflow:hidden;border:1px solid var(--border);}
+.tl-search-row{display:flex;align-items:center;gap:8px;padding:9px 11px;border-bottom:1px solid var(--border);background:var(--surface-alt);}
+.tl-search-icon{color:var(--ink-muted);font-size:12px;flex-shrink:0;}
+.tl-search-text{font-size:13px;color:var(--ink);flex:1;}
+.tl-cursor{display:inline-block;width:1.5px;height:13px;background:var(--accent);margin-left:1px;animation:blink 1s step-end infinite;vertical-align:middle;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.tl-shortcut-hint{font-size:9px;color:var(--ink-muted);white-space:nowrap;}
+.tl-tab-row{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--border);cursor:pointer;}
+.tl-tab-row:last-of-type{border-bottom:none;}
+.tl-tab-row.sel{background:var(--mock-sel);}
+.tl-fav{width:14px;height:14px;border-radius:3px;flex-shrink:0;background:#CBD5E1;}
+.tl-fav.figma{background:#A259FF;}
+.tl-fav.gh{background:#24292E;}
+.tl-fav.gd{background:#1A73E8;}
+.tl-tab-name{font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tl-tab-name .hl{color:var(--accent);font-weight:700;}
+.tl-popup-footer{padding:6px 11px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--surface-alt);}
+.tl-popup-footer span{font-size:10px;color:var(--ink-muted);}
+
+/* ── INSTALL BAR ────────────────────────────────────────────── */
+.install-bar{background:var(--accent-bg);border-top:3px solid var(--accent);padding:24px 48px;}
+.bar-label{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:12px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 17px;background:var(--hero-bg);color:#fff;text-decoration:none;border-radius:var(--radius);font-size:13px;font-weight:500;transition:opacity .15s;}
+.btn:hover{opacity:.82;}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* ── CONTENT SECTIONS ───────────────────────────────────────── */
+.content{padding:0 48px;}
+@media(max-width:580px){.content,.install-bar{padding-left:24px;padding-right:24px;}}
+.section{padding:36px 0;border-bottom:1px solid var(--border);}
+.section:last-child{border-bottom:none;}
+.section-head{font-family:Georgia,serif;font-size:19px;font-weight:normal;color:var(--ink);margin-bottom:24px;text-wrap:balance;}
+
+/* ── FEATURE ROWS (text + visual) ──────────────────────────── */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;padding:28px 0;border-bottom:1px solid var(--border);}
+.feat:last-child{border-bottom:none;}
+@media(max-width:580px){.feat{grid-template-columns:1fr;gap:18px;}}
+.feat.flip{direction:rtl;}
+.feat.flip > *{direction:ltr;}
+.feat-text{}
+.feat-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.feat-title{font-weight:700;font-size:15.5px;color:var(--ink);margin-bottom:7px;line-height:1.35;}
+.feat-desc{font-size:13.5px;color:var(--ink-muted);line-height:1.65;}
+.feat-desc strong{color:var(--ink);font-weight:600;}
+.feat-visual{}
+
+/* ── DUPLICATE NOTIFICATION MOCK ───────────────────────────── */
+.notif-demo{background:var(--mock-chrome);border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+.notif-bar-top{background:var(--mock-bar);height:28px;display:flex;align-items:center;padding:0 10px;gap:5px;}
+.notif-b-dot{width:8px;height:8px;border-radius:50%;}
+.notif-url{background:rgba(255,255,255,.07);border-radius:3px;height:16px;flex:1;margin:0 12px;}
+.notif-page{background:var(--mock-page);padding:0;position:relative;}
+.notif-toast{background:var(--hero-bg);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.notif-bolt{font-size:14px;flex-shrink:0;}
+.notif-msg{font-size:11px;color:rgba(255,255,255,.85);flex:1;min-width:0;}
+.notif-url-snippet{color:rgba(255,255,255,.5);font-size:10px;display:block;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.notif-btns{display:flex;gap:6px;flex-shrink:0;}
+.notif-btn{font-size:10.5px;padding:4px 9px;border-radius:3px;cursor:pointer;white-space:nowrap;}
+.notif-btn.secondary{border:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.85);}
+.notif-btn.primary{background:var(--accent);color:#fff;border:none;}
+.notif-fake-page{padding:20px 16px;display:flex;flex-direction:column;gap:8px;}
+.fake-line{height:8px;border-radius:4px;background:var(--border);}
+.fake-line.w80{width:80%;}
+.fake-line.w60{width:60%;}
+.fake-line.w90{width:90%;}
+.fake-line.w50{width:50%;}
+
+/* ── SWEEP MOCK ─────────────────────────────────────────────── */
+.sweep-demo{background:var(--mock-popup);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.08);overflow:hidden;}
+.sweep-header{background:var(--hero-bg);padding:12px 14px;display:flex;align-items:center;gap:8px;}
+.sweep-icon{font-size:16px;}
+.sweep-title{font-size:12px;font-weight:600;color:#fff;}
+.sweep-body{padding:14px;}
+.sweep-stat{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-alt);border-radius:5px;margin-bottom:10px;border:1px solid var(--border);}
+.sweep-count{font-size:13px;font-weight:600;color:var(--ink);}
+.sweep-count span{color:var(--accent);}
+.sweep-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;}
+.sweep-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:9px;background:var(--hero-bg);color:#fff;border-radius:4px;font-size:12.5px;font-weight:500;border:none;cursor:pointer;}
+.sweep-note{font-size:10.5px;color:var(--ink-muted);text-align:center;margin-top:8px;}
+
+/* ── WINDOW RENAME MOCK ─────────────────────────────────────── */
+.win-demo{background:var(--mock-chrome);border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+.win-bar{background:var(--mock-bar);height:28px;display:flex;align-items:center;padding:0 10px;gap:5px;}
+.win-dot{width:8px;height:8px;border-radius:50%;}
+.win-tabs{background:var(--mock-chrome);display:flex;gap:2px;padding:4px 10px 0;}
+.win-tab{background:rgba(255,255,255,.08);border-radius:5px 5px 0 0;padding:5px 10px;font-size:9.5px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px;}
+.win-tab.active{background:var(--mock-page);color:var(--ink);}
+.win-content{background:var(--mock-page);padding:14px;}
+.win-label-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.win-label{font-size:10px;color:var(--ink-muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.win-name{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--ink);font-weight:500;}
+.win-name .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+/* ── STEPS ──────────────────────────────────────────────────── */
+.steps{display:flex;flex-direction:column;counter-reset:step;}
+.step{display:grid;grid-template-columns:32px 1fr;gap:0 16px;padding:16px 0;border-bottom:1px solid var(--border);counter-increment:step;}
+.step:last-child{border-bottom:none;}
+.step-n{width:32px;height:32px;background:var(--hero-bg);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;margin-top:1px;font-variant-numeric:tabular-nums;}
+.step-n::before{content:counter(step);}
+.step-title{font-weight:600;font-size:14px;margin-bottom:4px;}
+.step-desc{font-size:13.5px;color:var(--ink-muted);line-height:1.55;}
+.step-desc strong{color:var(--ink);font-weight:600;}
+
+/* ── PRIVACY NOTE ───────────────────────────────────────────── */
+.privacy-note{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-top:20px;}
+.privacy-note p{font-size:13px;color:var(--ink-muted);line-height:1.6;}
+.privacy-note strong{color:var(--ink);font-weight:600;}
+
+/* ── SHORTCUTS ──────────────────────────────────────────────── */
+.shortcut-grid{display:grid;grid-template-columns:auto 1fr;gap:0;}
+.sc-key,.sc-desc{padding:11px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;}
+.sc-key{padding-right:20px;gap:4px;white-space:nowrap;}
+.sc-desc{font-size:13.5px;color:var(--ink-muted);}
+.sc-row:last-child .sc-key,.sc-row:last-child .sc-desc{border-bottom:none;}
+
+kbd{display:inline-block;font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:11.5px;padding:2px 7px;background:var(--key-bg);border:1px solid var(--border);border-bottom:2px solid var(--border);border-radius:4px;color:var(--ink);letter-spacing:.02em;white-space:nowrap;}
+code{font-family:'SF Mono','Cascadia Code','Fira Mono',monospace;font-size:12px;padding:1px 5px;background:var(--key-bg);border-radius:3px;color:var(--ink);}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.doc-footer{padding:18px 48px;border-top:1px solid var(--border);background:var(--surface-alt);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.footer-text{font-size:12px;color:var(--ink-muted);}
+
+/* ── PRINT ──────────────────────────────────────────────────── */
+@media print{
+  body{background:#fff;}
+  .page{margin:0;border:none;border-radius:0;max-width:100%;}
+  .hero,.install-bar,.step-n,.btn{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .browser-mock,.notif-demo,.sweep-demo,.win-demo{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  a{color:inherit;text-decoration:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">User Guide · v1.0</div>
+    <h1 class="hero-name">TabLens</h1>
+    <p class="hero-tagline">Find any open tab instantly. Never open the same page twice.</p>
+    <div class="hero-rule"></div>
+    <div class="badges">
+      <span class="badge">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>
+        Chrome
+      </span>
+      <span class="badge">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+        Edge
+      </span>
+      <span class="badge">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        No account
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero browser mockup -->
+  <div class="browser-mock" aria-hidden="true">
+    <div class="browser-bar">
+      <span class="b-dot r"></span><span class="b-dot y"></span><span class="b-dot g"></span>
+      <span class="b-url">New Tab</span>
+    </div>
+    <div class="browser-page">
+      <div class="tl-popup">
+        <div class="tl-search-row">
+          <span class="tl-search-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <span class="tl-search-text">figma<span class="tl-cursor"></span></span>
+          <span class="tl-shortcut-hint"><kbd style="font-size:9px;padding:1px 5px;">Alt+M</kbd></span>
+        </div>
+        <div class="tl-tab-row sel">
+          <div class="tl-fav figma"></div>
+          <span class="tl-tab-name"><span class="hl">Figma</span> — Design System v2</span>
+        </div>
+        <div class="tl-tab-row">
+          <div class="tl-fav figma"></div>
+          <span class="tl-tab-name"><span class="hl">Figma</span> — Q3 Mockups</span>
+        </div>
+        <div class="tl-tab-row">
+          <div class="tl-fav gh"></div>
+          <span class="tl-tab-name">github.com / tablens</span>
+        </div>
+        <div class="tl-popup-footer">
+          <span>3 results</span>
+          <span style="margin-left:auto;display:flex;gap:4px;"><kbd style="font-size:9px;padding:1px 4px;">↑↓</kbd><kbd style="font-size:9px;padding:1px 4px;">↵</kbd></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── INSTALL ── -->
+<div class="install-bar">
+  <div class="bar-label">Install free — no account needed</div>
+  <div class="btn-row">
+    <a class="btn" href="https://chromewebstore.google.com/detail/tablens/kkoeaoddgajjmhdoaocpjacmedpbknaf" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>
+      Add to Chrome
+    </a>
+    <a class="btn" href="https://microsoftedge.microsoft.com/addons/detail/iemacbomkondjpefoedpiepddackpfoj" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+      Add to Edge
+    </a>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ── FEATURES ── -->
+<section class="section">
+  <h2 class="section-head">What TabLens does</h2>
+
+  <!-- Feature 1: Tab search -->
+  <div class="feat">
+    <div class="feat-text">
+      <div class="feat-label">Search</div>
+      <div class="feat-title">Find any tab in seconds</div>
+      <div class="feat-desc">Press <kbd>Alt+M</kbd> from anywhere in Chrome or Edge. Start typing — TabLens instantly filters every open tab across all windows. Fuzzy matching means <strong>typos and partial words</strong> still find the right tab.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="tl-popup" style="box-shadow:0 6px 24px rgba(0,0,0,.12);">
+        <div class="tl-search-row">
+          <span class="tl-search-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+          <span class="tl-search-text">notion<span class="tl-cursor"></span></span>
+        </div>
+        <div class="tl-tab-row sel">
+          <div class="tl-fav" style="background:#000;"></div>
+          <span class="tl-tab-name"><span class="hl">Notion</span> — Team Workspace</span>
+        </div>
+        <div class="tl-tab-row">
+          <div class="tl-fav" style="background:#000;"></div>
+          <span class="tl-tab-name"><span class="hl">Notion</span> — Product Roadmap</span>
+        </div>
+        <div class="tl-popup-footer">
+          <span>2 matches</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--ink-muted);">across 1 window</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 2: Duplicate detection -->
+  <div class="feat flip">
+    <div class="feat-text">
+      <div class="feat-label">Duplicate detection</div>
+      <div class="feat-title">Never open the same tab twice</div>
+      <div class="feat-desc">The moment you open a URL you already have, TabLens shows a banner. Choose <strong>Continue</strong> to close the new tab quietly, or <strong>Take me there</strong> to jump to the existing one. Tracking noise like <code>utm_*</code> is ignored.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="notif-demo">
+        <div class="notif-bar-top">
+          <span class="notif-b-dot" style="background:#FF5F57;"></span>
+          <span class="notif-b-dot" style="background:#FFBD2E;"></span>
+          <span class="notif-b-dot" style="background:#28CA42;"></span>
+          <div class="notif-url"></div>
+        </div>
+        <div class="notif-page">
+          <div class="notif-toast">
+            <span class="notif-bolt">⚡</span>
+            <div class="notif-msg">
+              Already open
+              <span class="notif-url-snippet">github.com/vercel/next.js</span>
+            </div>
+            <div class="notif-btns">
+              <button class="notif-btn secondary">Continue</button>
+              <button class="notif-btn primary">Take me there</button>
+            </div>
+          </div>
+          <div class="notif-fake-page">
+            <div class="fake-line w80"></div>
+            <div class="fake-line w60"></div>
+            <div class="fake-line w90"></div>
+            <div class="fake-line w50"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 3: Sweep -->
+  <div class="feat">
+    <div class="feat-text">
+      <div class="feat-label">One-click sweep</div>
+      <div class="feat-title">Close all duplicates at once</div>
+      <div class="feat-desc">Open the popup and TabLens instantly counts any duplicates already open across your windows. One button closes them all. <strong>Pinned tabs are always safe</strong> — they're never touched.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="sweep-demo">
+        <div class="sweep-header">
+          <span class="sweep-icon">🔍</span>
+          <span class="sweep-title">TabLens</span>
+        </div>
+        <div class="sweep-body">
+          <div class="sweep-stat">
+            <span class="sweep-count"><span>3</span> duplicate tabs found</span>
+            <span class="sweep-badge">3</span>
+          </div>
+          <button class="sweep-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Close all duplicates
+          </button>
+          <div class="sweep-note">Pinned tabs are always kept safe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 4: Window names -->
+  <div class="feat flip">
+    <div class="feat-text">
+      <div class="feat-label">Window management</div>
+      <div class="feat-title">Name your windows, merge them too</div>
+      <div class="feat-desc">Give any browser window a label — <strong>Work</strong>, <strong>Research</strong>, <strong>Shopping</strong> — so you always know what's where. Or merge all windows into one with a single click.</div>
+    </div>
+    <div class="feat-visual" aria-hidden="true">
+      <div class="win-demo">
+        <div class="win-bar">
+          <span class="win-dot" style="background:#FF5F57;"></span>
+          <span class="win-dot" style="background:#FFBD2E;"></span>
+          <span class="win-dot" style="background:#28CA42;"></span>
+        </div>
+        <div class="win-tabs">
+          <div class="win-tab active">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            Work
+          </div>
+          <div class="win-tab">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            Research
+          </div>
+        </div>
+        <div class="win-content">
+          <div class="win-label-row">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span class="win-label">Window name</span>
+          </div>
+          <div class="win-name">
+            <span class="dot"></span>
+            Work — Design & Dev
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── GETTING STARTED ── -->
+<section class="section">
+  <h2 class="section-head">Getting started in 4 steps</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n" aria-hidden="true"></div>
+      <div>
+        <div class="step-title">Click "Add to Chrome" or "Add to Edge" above</div>
+        <div class="step-desc">The browser asks for confirmation — just click <strong>Add extension</strong>. No sign-in, no setup. TabLens is active immediately.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n" aria-hidden="true"></div>
+      <div>
+        <div class="step-title">Press <kbd>Alt+M</kbd> from any tab</div>
+        <div class="step-desc">This opens TabLens with the search bar already focused — no need to reach for the mouse. You can also click the TabLens icon in your browser toolbar.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n" aria-hidden="true"></div>
+      <div>
+        <div class="step-title">Type to find a tab, press <kbd>Enter</kbd> to switch</div>
+        <div class="step-desc">Results filter as you type. Use <kbd>↑</kbd> <kbd>↓</kbd> to move between results. Press <kbd>/</kbd> at any time to jump back to the search bar.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n" aria-hidden="true"></div>
+      <div>
+        <div class="step-title">Browse normally — duplicate detection runs in the background</div>
+        <div class="step-desc">When you open a page that's already open, a small banner appears. Pick <strong>Continue</strong> or <strong>Take me there</strong> — it takes less than a second.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="privacy-note">
+    <p><strong>Your data stays on your device.</strong> TabLens cannot read the content of any page you visit. It never connects to a server, sends analytics, or requires an account. Everything runs locally in your browser.</p>
+  </div>
+</section>
+
+<!-- ── SHORTCUTS ── -->
+<section class="section">
+  <h2 class="section-head">Keyboard shortcuts</h2>
+  <div class="shortcut-grid" role="table" aria-label="Keyboard shortcuts">
+    <div class="sc-row" role="row">
+      <div class="sc-key" role="cell"><kbd>Alt+M</kbd></div>
+      <div class="sc-desc" role="cell">Open TabLens with search focused, from anywhere</div>
+    </div>
+    <div class="sc-row" role="row">
+      <div class="sc-key" role="cell"><kbd>/</kbd></div>
+      <div class="sc-desc" role="cell">Focus the search bar when TabLens is open</div>
+    </div>
+    <div class="sc-row" role="row">
+      <div class="sc-key" role="cell"><kbd>↑</kbd> <kbd>↓</kbd></div>
+      <div class="sc-desc" role="cell">Navigate through search results</div>
+    </div>
+    <div class="sc-row" role="row">
+      <div class="sc-key" role="cell"><kbd>Enter</kbd></div>
+      <div class="sc-desc" role="cell">Switch to the highlighted tab</div>
+    </div>
+    <div class="sc-row" role="row">
+      <div class="sc-key" role="cell"><kbd>Esc</kbd></div>
+      <div class="sc-desc" role="cell">Close TabLens</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /content -->
+
+<footer class="doc-footer">
+  <span class="footer-text">TabLens v1.0 · Free, no subscription</span>
+  <span class="footer-text">pratheepr@gmail.com</span>
+</footer>
+
+</div><!-- /page -->
+</body>
+</html>
